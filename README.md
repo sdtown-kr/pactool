@@ -9,9 +9,9 @@ ResearchDownload / SPD Flash Tool.
 - No extra packages: a single file that runs on Python 3.8+ (Windows, macOS, Linux)
 - Recomputes file offsets and both header CRCs (CRC-16/ARC) when repacking
 - Records the original layout in `manifest.json` so a PAC can be rebuilt in the same order
+- Shows all messages in Korean or English, chosen on first run
 
 > **Disclaimer**
-> 
 > Flashing firmware can make a device unusable and may void its warranty. This tool only
 > rebuilds the PAC container; it does not make modified images valid for your device.
 > You use it entirely at your own risk. Only use it on devices you own.
@@ -32,6 +32,7 @@ python pactool.py verify  <firmware.pac>
 python pactool.py unpack  <firmware.pac> <folder>
 python pactool.py repack  <folder> <new.pac>
 python pactool.py replace <firmware.pac> <FileID> <new_file> <new.pac>
+python pactool.py lang    [ko|en]
 ```
 
 | Command | What it does |
@@ -41,6 +42,7 @@ python pactool.py replace <firmware.pac> <FileID> <new_file> <new.pac>
 | `unpack` | Extracts every file into a folder and writes `manifest.json` describing the original layout. |
 | `repack` | Rebuilds a PAC from an unpacked folder, using `manifest.json` for order and metadata. |
 | `replace` | Builds a new PAC with one file swapped out, without unpacking everything first. |
+| `lang` | Changes the display language. Without `ko` or `en`, shows a list to pick from. |
 
 ### Examples
 
@@ -74,6 +76,23 @@ When repacking, overwrite the file under the same name; do not rename it.
 
 File IDs are the names shown in ResearchDownload's file list (`BOOT`, `VBMETA`, `NV_LTE`,
 `Modem_LTE`, …). Run `info` to see the IDs in your PAC.
+
+### Display language
+
+On the first run, pactool asks you to choose Korean or English and shows all messages in
+that language. The choice is saved to `.pactool.json` in your home folder, so you are only
+asked once.
+
+To change it later:
+```
+python pactool.py lang       # pick from a list
+python pactool.py lang ko    # switch to Korean
+python pactool.py lang en    # switch to English
+```
+
+If pactool cannot ask, for example when it runs without a terminal or its input is piped,
+it follows the system language (Korean on a Korean system, English otherwise) and saves
+nothing.
 
 ## Recommended check for a new device
 
