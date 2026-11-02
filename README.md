@@ -11,6 +11,7 @@ ResearchDownload / SPD Flash Tool.
 - Records the original layout in `manifest.json` so a PAC can be rebuilt in the same order
 
 > **Disclaimer**
+> 
 > Flashing firmware can make a device unusable and may void its warranty. This tool only
 > rebuilds the PAC container; it does not make modified images valid for your device.
 > You use it entirely at your own risk. Only use it on devices you own.
