@@ -8,9 +8,9 @@
 - 추가 설치 없이 파일 하나로 동작합니다 (Python 3.8 이상, 윈도우·맥·리눅스)
 - 다시 묶을 때 파일 위치(오프셋)와 헤더 CRC 두 개(CRC-16/ARC)를 자동으로 다시 계산합니다
 - 원래 구조를 `manifest.json`에 기록해서, 같은 순서로 pac를 다시 만들 수 있습니다
+- 처음 실행할 때 고른 언어(한국어 또는 영어)로 모든 안내를 보여 줍니다
 
 > **면책 조항**
->
 > 펌웨어 플래싱은 기기를 사용할 수 없게 만들 수 있고, 제조사 보증이 무효가 될 수 있습니다.
 > 이 도구는 pac 파일의 겉포장만 다시 만들 뿐, 수정한 이미지가 기기에서 정상 동작하도록 해 주지 않습니다.
 > 사용에 따른 모든 책임은 사용자에게 있습니다. 본인 소유 기기에만 사용하세요.
@@ -31,6 +31,7 @@ python pactool.py verify  <펌웨어.pac>
 python pactool.py unpack  <펌웨어.pac> <폴더>
 python pactool.py repack  <폴더> <새파일.pac>
 python pactool.py replace <펌웨어.pac> <파일ID> <바꿀파일> <새파일.pac>
+python pactool.py lang    [ko|en]
 ```
 
 | 명령 | 하는 일 |
@@ -40,6 +41,7 @@ python pactool.py replace <펌웨어.pac> <파일ID> <바꿀파일> <새파일.p
 | `unpack` | 모든 파일을 폴더에 풀고, 원래 구조를 `manifest.json`에 기록합니다. |
 | `repack` | 풀어 둔 폴더를 `manifest.json`의 순서와 정보대로 다시 묶습니다. |
 | `replace` | 전체를 풀지 않고 파일 하나만 바꿔 새 pac를 만듭니다. |
+| `lang` | 표시 언어를 바꿉니다. `ko`나 `en`을 생략하면 목록에서 고릅니다. |
 
 ### 예시
 
@@ -74,6 +76,21 @@ python pactool.py verify firmware_new.pac
 
 파일 ID는 ResearchDownload 파일 목록에 나오는 이름입니다(`BOOT`, `VBMETA`, `NV_LTE`,
 `Modem_LTE` 등). 내 pac에 어떤 ID가 있는지는 `info`로 확인할 수 있습니다.
+
+### 표시 언어
+
+처음 실행하면 한국어와 영어 중 하나를 고르라고 묻고, 고른 언어로 모든 안내를 보여 줍니다.
+선택은 홈 폴더의 `.pactool.json`에 저장되므로 한 번만 고르면 됩니다.
+
+나중에 바꾸려면:
+```
+python pactool.py lang       # 목록에서 고르기
+python pactool.py lang ko    # 한국어로 바꾸기
+python pactool.py lang en    # 영어로 바꾸기
+```
+
+터미널 없이 실행하거나 입력을 파이프로 넘기는 등 물어볼 수 없는 경우에는 시스템 언어를 따르고
+(한국어 시스템은 한국어, 그 외는 영어) 저장하지 않습니다.
 
 ## 새 기기에서 처음 쓸 때 권장하는 확인
 
